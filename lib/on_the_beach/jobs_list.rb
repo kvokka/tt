@@ -1,9 +1,11 @@
+require 'json'
+
 module OnTheBeach
   class JobsList
     attr_reader :jobs
 
-    def initialize **jobs
-      @jobs = jobs
+    def initialize str
+      @jobs = parse(str)
       @jobs_backup = jobs.dup
       check_consistency!
     end
@@ -40,6 +42,14 @@ module OnTheBeach
     def check_consistency!
       raise ArgumentError if self.jobs.any?{|k,v| k == v }
       true
+    end
+
+    def parse hash_or_str
+      return hash_or_str if hash_or_str.respond_to?(:to_hash)
+      hash_or_str.split(/[\n|,]/).
+          reject(&:empty?).
+          map{ |el| el.split('=>').map(&:strip).reject(&:empty?).map(&:to_sym).tap{|arr| arr.push(nil) if arr.size == 1 }}.
+          to_h
     end
   end
 end

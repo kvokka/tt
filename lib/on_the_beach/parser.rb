@@ -2,7 +2,7 @@ module OnTheBeach
   class Parser
     attr_reader :jobs
 
-    def initialize **jobs
+    def initialize jobs={}
       @jobs = JobsList.new jobs
     end
 
