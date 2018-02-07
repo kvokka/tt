@@ -1,28 +1,33 @@
 module OnTheBeach
   class Parser
-    attr_reader = :jobs
+    attr_reader :jobs
 
     def initialize **jobs
-      self.jobs = jobs
+      @jobs = JobsList.new jobs
     end
 
-    def query(jobs={})
-      [].tap do |result|
-        loop do
-          initial_query_size = jobs.size
-          jobs.each_pair do |k,v| 
-            raise ArgumentError                        if k == v
-            (result.push(k) && jobs.delete(k))         unless v
-            if ind = result.index(v)
-              (result.insert(ind+1, k) && jobs.delete(k))
-            end
+    def self.call(*args)
+      new(*args).call
+    end
+
+    def call
+      loop do
+        jobs.neat_each do |k,v| 
+          (result.push(k) && jobs.delete(k))         unless v
+          if ind = result.index(v)
+            (result.insert(ind+1, k) && jobs.delete(k))
           end
-        break result if jobs.size.zero?  
-        raise InfiniteLoop                             if jobs.size == initial_query_size
-        end
+        end 
+        break result if jobs.empty?
       end
-    rescue ArgumentError, InfiniteLoop => error
-      error # 'ArgumentError' # <= This thick is made only for easy testing
+    ensure
+      @jobs = jobs.restore
+    end
+
+    private
+
+    def result
+      @result ||= []
     end
   end
 end
