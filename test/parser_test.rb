@@ -2,6 +2,10 @@ require 'test_helper'
 
 describe OnTheBeach::Parser do
   describe 'should parse query' do
+    it 'empty test' do
+      assert_equal %i[], OnTheBeach::Parser.()
+    end
+
     it 'a =>' do
       assert_equal %i[a], OnTheBeach::Parser.call(a: nil)
     end
