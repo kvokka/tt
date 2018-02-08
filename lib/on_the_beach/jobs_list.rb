@@ -45,7 +45,7 @@ module OnTheBeach
     end
 
     def parse hash_or_str
-      return hash_or_str if hash_or_str.respond_to?(:to_hash)
+      return hash_or_str.dup if hash_or_str.respond_to?(:to_hash)
       hash_or_str.split(/[\n|,]/).
           reject(&:empty?).
           map{ |el| el.split('=>').map(&:strip).reject(&:empty?).map(&:to_sym).tap{|arr| arr.push(nil) if arr.size == 1 }}.
