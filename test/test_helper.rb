@@ -1,2 +1,2 @@
-require "minitest/autorun"
-require_relative "../lib/on_the_beach"
+require 'minitest/autorun'
+require_relative '../lib/on_the_beach'
