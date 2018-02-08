@@ -18,13 +18,16 @@ module OnTheBeach
             (result.insert(ind+1, k) && jobs.delete(k))
           end
         end 
-        break result if jobs.empty?
+        break result.dup if jobs.empty?
       end
     ensure
-      @jobs = jobs.restore
+      self.jobs = JobsList.new jobs.restore
+      result.clear
     end
 
     private
+
+    attr_writer :jobs
 
     def result
       @result ||= []

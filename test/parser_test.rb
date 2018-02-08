@@ -37,5 +37,11 @@ describe OnTheBeach::Parser do
         OnTheBeach::Parser.call("a=> \n b => c\n c => f \n d => a \n e => \n f => b")
       end
     end
+
+    it 'return clean result with multiple run' do
+      parser  = OnTheBeach::Parser.new("a=>  \n  b => , c =>")
+      parser.()
+      assert_equal %i[a b c], parser.call
+    end
   end
 end
