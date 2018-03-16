@@ -1,3 +1,13 @@
+# UPD1
+
+After some dig into Ruby 2.1 StdLib I found one-line solution for this task. I do not tell, that the previous is not right, but the new one will be much more elegant.
+
+```
+require 'tsort'
+h = { a:nil, b: :c, c: :f, d: :a, e: nil, f: :b }
+TSort.tsort(->(&b) { h.each_key(&b) }, ->(n, &b) { Array(h[n]).each(&b) } )
+```
+
 # Intro
 
 The purpose of this exercise is to see how you approach a problem, and how you solve it. We’re interested to see how you structure
